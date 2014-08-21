@@ -17,13 +17,10 @@ def find_product(arr)
       adjacents = calculate_direction(x, y)
       adjacents.each do |adj|
         p = item
-        adj.each{|a| p *= arr[a.first][a.last]}
-        if product < p
-          product = p
-          pp adj
-          puts product
-          pp item 
+        adj.each do |a|
+          p *= arr[a.first][a.last]
         end
+        product = p if product < p
       end
     end
   end
@@ -38,8 +35,8 @@ def calculate_direction(x, y)
     b.each do |y_add|
       next if x_add == y_add && y_add == 0
       tmp = []
-      x_tmp = x
-      y_tmp = y
+      x_tmp = y
+      y_tmp = x
       3.times do 
         x_tmp += x_add
         y_tmp += y_add
