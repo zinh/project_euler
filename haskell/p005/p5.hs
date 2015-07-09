@@ -4,6 +4,9 @@ divided n =
   let lst = [factor x | x <- [2..n]]
   in product [x^(count_max x lst) | x <- (union_all lst [])]
 
+divided1 :: Integer -> Integer
+divided1 n = foldl1 lcm [1..n]
+
 factor :: Integer -> [Integer]
 factor n = factor' n 2 []
 
