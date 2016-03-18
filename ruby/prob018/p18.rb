@@ -12,37 +12,47 @@ def path_sum(file_name)
   end
   matrix.map!{|row| row.map!{|item| item.to_i}}
   max_sum = 0
-  all_path(matrix.length, [[[0,0]]]).each do |path|
+  total_path = 0
+  all_path(matrix.length - 1, [[[0,0]]]).each do |path|
     sum = 0
     path.each do |point|
       x = point.first
       y = point.last
-      break if x < 0 || y < 0
-      break if matrix[x].nil? || matrix[x][y].blank?
+      if x < 0 || y < 0
+        sum = 0
+        break
+      end
+      if matrix[x].nil? || matrix[x][y].nil?
+        sum = 0
+        break
+      end
       sum += matrix[x][y]
     end
-    max_sum = sum if max_sum < sum
+    total_path += 1 if sum > 0
+    if max_sum < sum
+      max_sum = sum 
+    end
   end
+  puts total_path
   return max_sum
 end
 
 def all_path(max_x, current_path)
-  break_point = false
-  new_path = []
-  current_path.each do |path|
-    axis = path.last
-    x = axis.first
-    y = axis.last
-    new_path << (path + [[x + 1, y]])
-    new_path << (path + [[x + 1, y + 1]])
-    new_path << (path + [[x + 1, y - 1]])
-    break_point = true if (x + 1) == max_x
+  max_x.times do
+    new_path = []
+    current_path.each do |path|
+      last_point = path.last
+      x = last_point.first
+      y = last_point.last
+      new_path << (path + [[x + 1, y]])
+      new_path << (path + [[x + 1, y + 1]]) if (y + 1) <= (x + 1)
+      new_path << (path + [[x + 1, y - 1]]) if (y - 1) >= 0
+    end
+    current_path = new_path
   end
-  if break_point
-    return new_path
-  else
-    all_path(max_x, new_path)
-  end
+  return current_path
 end
 
-path_sum('input.txt')
+# puts path_sum('input.txt')
+
+pp all_path(3, [[[0,0]]])
