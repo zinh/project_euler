@@ -1,5 +1,4 @@
 require 'pp'
-require 'pry'
 
 def path_sum(file_name)
   matrix = []
@@ -33,7 +32,6 @@ def path_sum(file_name)
       max_sum = sum 
     end
   end
-  puts total_path
   return max_sum
 end
 
@@ -46,13 +44,10 @@ def all_path(max_x, current_path)
       y = last_point.last
       new_path << (path + [[x + 1, y]])
       new_path << (path + [[x + 1, y + 1]]) if (y + 1) <= (x + 1)
-      new_path << (path + [[x + 1, y - 1]]) if (y - 1) >= 0
     end
     current_path = new_path
   end
   return current_path
 end
 
-# puts path_sum('input.txt')
-
-pp all_path(3, [[[0,0]]])
+puts path_sum('input.txt')
